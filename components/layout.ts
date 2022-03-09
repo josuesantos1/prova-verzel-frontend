@@ -33,6 +33,7 @@ export const Card = styled.div`
     img {
         height: 10vh;
         width: 10vw;
+        border-radius: 0.5rem;
     }
 
     h1 {
@@ -49,5 +50,18 @@ export const Card = styled.div`
         font-size: 3vh;
         font-weight: bold;
         color: #76f;
+    }
+`;
+
+export const GridView = styled.div`
+    display: grid;
+    column-gap: 50px;
+    grid-template-columns: auto auto auto;
+
+    height: 100vh;
+    width: 50vw;
+
+    & > * {
+        margin: 1rem;
     }
 `;
