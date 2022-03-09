@@ -65,3 +65,22 @@ export const GridView = styled.div`
         margin: 1rem;
     }
 `;
+
+export const NavBar = styled.nav`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    height: 10vh;
+
+    ul {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    li {
+        list-style: none;
+        padding: 0.5rem;
+    }
+`;
