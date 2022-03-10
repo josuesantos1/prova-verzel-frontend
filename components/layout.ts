@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { IBox } from '../types/Box';
 
 export const App = styled.main`
     display: flex;
@@ -8,9 +9,11 @@ export const App = styled.main`
 export const Section = styled.section`
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
     height: 100vh;
-    width: 100vw;
+    width: 88vw;
 `;
 
 export const Card = styled.div`
@@ -83,4 +86,22 @@ export const NavBar = styled.nav`
         list-style: none;
         padding: 0.5rem;
     }
+`;
+
+export const Aside = styled.aside`
+    display: flex;
+    flex-direction: column;
+
+    height: 90vh;
+    width: 15vw;
+`;
+
+export const Box = styled.div<IBox>`
+    display: flex;
+    flex-direction: ${props => props.flexDirection || 'row'};
+    justify-content: ${props => props.justifyContent || 'flex-start'};
+    align-items: ${props => props.alignItems || 'flex-start'};
+
+    height: ${props => props.height};
+    width: ${props => props.width};
 `;
