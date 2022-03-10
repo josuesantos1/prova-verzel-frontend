@@ -34,3 +34,11 @@ export const Button = styled.button`
         cursor: pointer;
     }
 `;
+
+export const Input = styled.input`
+    border: 1px solid #76f;
+    border-radius: 0.5rem;
+
+    padding: 1rem;
+    width: 30vw;
+`;
