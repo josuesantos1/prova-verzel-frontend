@@ -41,4 +41,20 @@ export const Input = styled.input`
 
     padding: 1rem;
     width: 30vw;
+
+    margin-top: 1rem;
+
+    color: #76f;
+
+    &:focus {
+        outline: none;
+        font-weight: bold;
+    }
+`;
+
+export const Form = styled.form`
+    display: flex;
+    flex-direction: column;
+
+    padding: 1rem;
 `;
