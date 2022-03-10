@@ -15,3 +15,22 @@ export const Search = styled.input`
     }
 `;
 
+export const Button = styled.button`
+    border: 1px solid #ccf;
+    border-radius: 0.5rem;
+
+    padding: 0.5rem;
+
+    color: #76f;
+    background-color: #ccf;
+
+    font-weight: bold;
+
+    &:hover {
+        background-color: #fff;
+
+        box-shadow: 1px 5px 1rem #76f;
+
+        cursor: pointer;
+    }
+`;
