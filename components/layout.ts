@@ -9,7 +9,7 @@ export const App = styled.main`
 export const Section = styled.section`
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
 
     height: 100vh;
@@ -150,7 +150,7 @@ export const Box = styled.div<IBox>`
     display: flex;
     flex-direction: ${props => props.flexDirection || 'row'};
     justify-content: ${props => props.justifyContent || 'flex-start'};
-    align-items: ${props => props.alignItems || 'flex-start'};
+    align-items: ${props => props.alignItems || 'center'};
 
     height: ${props => props.height};
     width: ${props => props.width};
