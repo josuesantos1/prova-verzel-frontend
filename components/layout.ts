@@ -4,6 +4,10 @@ import { IBox } from '../types/Box';
 export const App = styled.main`
     display: flex;
     flex-direction: column;
+
+    a {
+        text-decoration: none;
+    }
 `;
 
 export const Section = styled.section`
@@ -123,8 +127,11 @@ export const NavBar = styled.nav`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 
     height: 10vh;
+
+    border-bottom: 1px solid #76f;
 
     ul {
         display: flex;
@@ -135,6 +142,7 @@ export const NavBar = styled.nav`
     li {
         list-style: none;
         padding: 0.5rem;
+        font-weight: bold;
     }
 `;
 
