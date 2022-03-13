@@ -54,6 +54,10 @@ export const Card = styled.div`
         font-weight: bold;
         color: #76f;
     }
+
+    :hover {
+        cursor: pointer;
+    }
 `;
 
 export const CardAdmin = styled.div`
