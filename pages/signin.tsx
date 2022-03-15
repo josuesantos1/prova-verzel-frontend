@@ -9,6 +9,28 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 
 const Signin: NextPage = () => { 
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const router = useRouter()
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault()
+
+    console.log(email, password)
+
+    axios.post( process.env.base_url + 'login', {
+      email,
+      password
+    }).then(response => {
+      localStorage.setItem('token', response.data)
+      router.push('/admin')
+    }).catch(error => {
+      console.log(error)
+    })
+  }
+
   return (
     <>
       <Head>
@@ -22,10 +44,10 @@ const Signin: NextPage = () => {
             <h1>Sign in</h1>
             <Form>
                 <label htmlFor="email">Email</label>
-                <Input placeholder="email" type="email" />
+                <Input onChange={(e) => setEmail(e.target.value)} placeholder="email" type="email" />
                 <label htmlFor="password">Password</label>
-                <Input placeholder="password" type="password" />
-                <Button>Sign in</Button>
+                <Input onChange={(e) => setPassword(e.target.value)} placeholder="password" type="password" />
+                <Button onClick={handleSubmit}>Sign in</Button>
             </Form>
         </Box>
       </Section>
