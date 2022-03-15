@@ -7,6 +7,7 @@ import { Button, Form, Input } from '../components/form'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
+import { login } from '../api/login'
 
 const Signin: NextPage = () => { 
 
@@ -18,17 +19,10 @@ const Signin: NextPage = () => {
   const handleSubmit = (e: any) => {
     e.preventDefault()
 
-    console.log(email, password)
-
-    axios.post( process.env.base_url + 'login', {
-      email,
-      password
-    }).then(response => {
-      localStorage.setItem('token', response.data)
+    login(email, password).then(({ data }) => {
+      localStorage.setItem('token', data.token)
       router.push('/admin')
-    }).catch(error => {
-      console.log(error)
-    })
+    }).catch(err => console.log(err))
   }
 
   return (
