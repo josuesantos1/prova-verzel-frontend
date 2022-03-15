@@ -7,6 +7,7 @@ import { Button } from '../components/form'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
+import { One } from '../api/cars'
 
 const Car: NextPage = () => { 
 
@@ -16,15 +17,9 @@ const Car: NextPage = () => {
 
     const id = query.id?.toString()
 
-    axios.get('http://localhost:8080/cars/?id=' + id, {
-        headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
-        }
-    }).then(response => {
-        setCars(response.data)
-    }).catch(error => {
-        console.log(error)
-    });
+    One(id).then(({ data }) => {
+        setCars(data)
+    }).catch(err => console.log(err))
 
   return (
     <>
