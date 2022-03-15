@@ -8,6 +8,7 @@ import { Box, Card, CardAdmin, GridView, Section } from '../components/layout'
 import Modal from 'react-modal';
 import axios from 'axios'
 import { Alert } from '../components/alert'
+import { createCar, deleteCar, getMe } from '../api/admin'
 
 const Admin: NextPage = () => { 
 
@@ -19,11 +20,11 @@ const Admin: NextPage = () => {
   let subtitle: any;
 
   const [modalIsOpen, setIsOpen] = useState(false)
-  const [deleteCar, setDeleteCar] = useState(false)
+  // const [deleteCar, setDeleteCar] = useState(false)
   const [name, setName] = useState('')
   const [brand, setBrand] = useState('')
   const [model, setModel] = useState('')
-  const [price, setPrice] = useState(Number)
+  const [price, setPrice] = useState('')
   const [photo, setPhoto] = useState('')
 
   const [cars, setCars] = useState([])
@@ -58,63 +59,26 @@ const Admin: NextPage = () => {
   }
 
   useEffect(() => {
-    axios.get('http://localhost:8080/cars/pagination', {
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token')
-      }
-    }).then(response => {
-      setCars(response.data)
-    }).catch(error => {
-      console.log(error)
-    })
+    getMe().then(({ data }) => {
+      setCars(data)
+    }).catch(err => console.log(err))
   }, [])
 
   const handlerCreate = () => {
-    axios.post('http://localhost:8080/cars', {
-      name: name,
-      brand: brand,
-      model: model,
-      price: price,
-      photo: photo
-    }, {
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token')
-      }
-    }).then(response => {     
-      closeModal()
-
-      axios.get('http://localhost:8080/cars/pagination', {
-        headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('token')
-        }
-      }).then(response => {
-        setCars(response.data)
-      }).catch(error => {
-        console.log(error)
-      })
-    }).catch(error => {
-      console.log(error)
-    });
+    createCar(name, brand, model, price, photo).then(({ data }) => {
+      getMe().then(({ data }) => {
+        setCars(data)
+        closeModal()
+      }).catch(err => console.log(err))
+    }).catch(err => console.log(err))
   }
 
-  const handlerDelete = (id: number) => {
-    axios.delete('http://localhost:8080/cars?id=' + id, {
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token')
-      }
-    }).then(response => {
-      axios.get('http://localhost:8080/cars/pagination', {
-        headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('token')
-        }
-      }).then(response => {
-        setCars(response.data)
-      }).catch(error => {
-        console.log(error)
-      })
-    }).catch(error => {
-      console.log(error)
-    });
+  const handlerDelete = (id: string) => {
+    deleteCar(id).then(()  => {
+      getMe().then(({ data }) => {
+        setCars(data)
+      }).catch(err => console.log(err))
+    }).catch((err: any) => console.log(err))
   }
 
   const customStyles = {
@@ -129,8 +93,6 @@ const Admin: NextPage = () => {
       color: '#76f',
     },
   };
-
-  let i = 0;
 
   return (
     <>
@@ -186,14 +148,14 @@ const Admin: NextPage = () => {
                   editar
                 </Button>
               </Box>
-              <Image src={"https://picsum.photos/200/300?random="+i++} alt="car" width={300} height={300} />
+              <Image src={car.photo} alt="car" width={300} height={300} />
               <h1>{car.name}</h1>
               <p>
                 {car.brand} - {car.model}
               </p>
               <h3>{car.description}</h3>
               <strong>
-                R$ 160.000,00
+                R$ {car.price}
               </strong>
             </CardAdmin>
           )
