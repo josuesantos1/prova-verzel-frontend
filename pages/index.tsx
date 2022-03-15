@@ -3,6 +3,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useEffect, useMemo, useState } from 'react'
+import { All } from '../api/cars'
 import { Button, Search } from '../components/form'
 import { Box, Card, GridView, Section } from '../components/layout'
 
@@ -14,18 +15,9 @@ const Home: NextPage = () => {
   const carsFiltred = cars.filter(car => car.name.toLowerCase().includes(search.toLowerCase()))
 
   useEffect(() => {
-    axios.get('http://localhost:8080/cars/pagination', {
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token')
-      }
-    }).then(response => {
-      setCars(response.data)
-    }).catch(error => {
-      console.log(error)
-    })
+    All().then(({ data }) => setCars(data))
+      .catch(err => console.log(err))
   }, [])
-
-  let i = 0;
 
   return (
     <>
@@ -43,14 +35,14 @@ const Home: NextPage = () => {
           {carsFiltred.map((car: any) => {
               return (
                 <Card key="car">
-                  <Image src={"https://picsum.photos/200/300?random="+i++} alt="car" width={300} height={300} />
+                  <Image src={car.photo} alt="car" width={300} height={300} />
                   <h1>{car.name}</h1>
                   <p>
                     {car.brand} - {car.model}
                   </p>
                   <h3>{car.description}</h3>
                   <strong>
-                    R$ 160.000,00
+                    {car.price}
                   </strong>
                 </Card>
               )
