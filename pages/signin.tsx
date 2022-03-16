@@ -20,7 +20,7 @@ const Signin: NextPage = () => {
     e.preventDefault()
 
     login(email, password).then(({ data }) => {
-      localStorage.setItem('token', data.token)
+      localStorage.setItem('token', data)
       router.push('/admin')
     }).catch(err => console.log(err))
   }
