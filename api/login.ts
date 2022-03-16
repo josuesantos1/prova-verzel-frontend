@@ -6,3 +6,11 @@ export const login = async (email: string, password: string) => {
         password
       })
 }
+
+export const signup = async (email: string, password: string, name: string) => {
+  return await axios.post( process.env.base_url + 'users', {
+      email,
+      password,
+      name
+    })
+}
