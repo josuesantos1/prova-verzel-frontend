@@ -7,8 +7,26 @@ import { Button, Form, Input } from '../components/form'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
+import { signup, login } from '../api/login'
 
 const Signup: NextPage = () => { 
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [name, setName] = useState('')
+
+  const router = useRouter()
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault()
+    signup(email, password, name).then(({ data }) => {
+      login(email, password).then(({ data }) => {
+        localStorage.setItem('token', data)
+        router.push('/admin')
+      })
+    }).catch(err => console.log(err))
+  }
+
   return (
     <>
       <Head>
@@ -22,13 +40,13 @@ const Signup: NextPage = () => {
             <h1>Sign up</h1>
             <Form>
                 <label htmlFor="name">Name</label>
-                <Input placeholder="name" type="text" />
+                <Input onChange={(e) => setName(e.target.value)} placeholder="name" type="text" />
                 <label htmlFor="email">Email</label>
-                <Input placeholder="email" type="email" />
+                <Input onChange={(e) => setEmail(e.target.value)} placeholder="email" type="email" />
                 <label htmlFor="password">Password</label>
-                <Input placeholder="password" type="password" />
-                <Button>Sign up</Button>
+                <Input onChange={(e) => setPassword(e.target.value)} placeholder="password" type="password" />
             </Form>
+            <Button onClick={handleSubmit}>Sign up</Button>
         </Box>
       </Section>
     </>
