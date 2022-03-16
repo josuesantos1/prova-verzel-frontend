@@ -6,13 +6,17 @@ import { useEffect, useMemo, useState } from 'react'
 import { All } from '../api/cars'
 import { Button, Search } from '../components/form'
 import { Box, Card, GridView, Section } from '../components/layout'
+import { ICar } from '../types/car'
 
 const Home: NextPage = () => {
 
-  const [cars, setCars] = useState([])
+  const [cars, setCars] = useState<ICar[]>()
   const [search, setSearch] = useState('')
 
-  const carsFiltred = cars.filter(car => car.name.toLowerCase().includes(search.toLowerCase()))
+  const carsFiltred = useMemo(() => {
+    return cars?.filter(car => car.name.toLowerCase().includes(search.toLowerCase()))
+      .sort((a, b) => (a.price < b.price) ? 1 : -1)
+  }, [search])
 
   useEffect(() => {
     All().then(({ data }) => setCars(data))
@@ -32,7 +36,7 @@ const Home: NextPage = () => {
             placeholder="Buscar"
             onChange={(e) => setSearch(e.target.value)} />
           <GridView>
-          {carsFiltred.map((car: any) => {
+          {carsFiltred?.map((car: any) => {
               return (
                 <Card key="car">
                   <Image src={car.photo} alt="car" width={300} height={300} />
