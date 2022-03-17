@@ -6,17 +6,10 @@ import { Button, Form, Input } from '../components/form'
 import { Box, Card, CardAdmin, GridView, Section } from '../components/layout'
 
 import Modal from 'react-modal';
-import axios from 'axios'
-import { Alert } from '../components/alert'
 import { createCar, deleteCar, getMe } from '../api/admin'
+import { useRouter } from 'next/router'
 
 const Admin: NextPage = () => { 
-
-  const formatter = new Intl.NumberFormat('pt-br', {
-    style: 'currency',
-    currency: 'BRL',
-  });
-
   let subtitle: any;
 
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -26,6 +19,9 @@ const Admin: NextPage = () => {
   const [model, setModel] = useState('')
   const [price, setPrice] = useState('')
   const [photo, setPhoto] = useState('')
+  const [description, setDescription] = useState('')
+
+  const [file, setFile] = useState<Blob>()
 
   const [cars, setCars] = useState([])
 
@@ -42,7 +38,8 @@ const Admin: NextPage = () => {
   }
 
   const changePhoto = (e: any) => {
-    setPhoto(e.target.value)
+    setFile(e.target.files[0])
+    setPhoto(e.target.value.split('\\').pop())
   }
 
   const changePrice = (e: any) => {
@@ -79,6 +76,13 @@ const Admin: NextPage = () => {
         setCars(data)
       }).catch(err => console.log(err))
     }).catch((err: any) => console.log(err))
+  }
+
+  const router = useRouter()
+
+  const handlerExit = () => {
+    localStorage.removeItem('token')
+    router.push('/')
   }
 
   const customStyles = {
@@ -126,7 +130,14 @@ const Admin: NextPage = () => {
           <Button onClick={closeModal}>Cancel</Button>
         </Box>
       </Modal>
-
+      <Box 
+          height="20vh"
+          width="50vw"
+          justifyContent='space-between'>
+            <Button onClick={handlerExit}>
+              Sair
+            </Button>
+        </Box>
       <Section>
         <Box 
           height="20vh"
